@@ -8,9 +8,9 @@ export default class Heatmap extends Component {
 
 
     /*
-    totalVAls = [
+    totalVAls = {}
+        "countryName": country,
         {
-            "countryName": country,
             "authorization": someNum,
             "deliveries": someNum
             GOAL "fillColor": color
@@ -19,7 +19,7 @@ export default class Heatmap extends Component {
             "authorization": someNum,
             "deliveries": someNum
         }
-    ]
+    }
 
     dataset = {
         "USA": {
@@ -74,7 +74,7 @@ export default class Heatmap extends Component {
         }
         console.log("totalVals is ", totalVals);
 
-        let map = new Datamap({
+        const dataMapConfig = {
             element: document.getElementById('heat_map'),
             scope: 'world',
             geographyConfig: {
@@ -83,14 +83,14 @@ export default class Heatmap extends Component {
                 highlightBorderWidth: 1,
                 borderColor: '444',
                 dataJson: worldJson,
-                populateTemplate: function (geo, data){
-                    console.log("data", data);
-                    console.log("geo", geo);
-                    if(!data){ return; }
+                popupTemplate: function (geo, data){
+                    
+                    if(!totalVals){ return; }
                     return [
                         '<div class="hoverinfo">',
                         '<strong>', geo.properties.name, '</strong>',
-                        '<br>Total Deliveries: <strong>', data[geo.properties.name].deliveries, '</strong>',
+                        '<br>Total Authorizations: <strong>$', totalVals[geo.properties.name].authorizations, '</strong>',
+                        '<br>Total Deliveries: <strong>$', totalVals[geo.properties.name].deliveries, '</strong>',
                         '</div>'].join('')
                 }
             },
@@ -112,7 +112,9 @@ export default class Heatmap extends Component {
 
                 return { path: path, projection: projection };
             }
-        });
+        }
+
+        let map = new Datamap(dataMapConfig);
     }
     
 
