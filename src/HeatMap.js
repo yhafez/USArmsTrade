@@ -40,7 +40,7 @@ export default class Heatmap extends Component {
         let totalVals = armsSalesTotals.reduce((total, yearlySale, index) => {
         
             if (!total[yearlySale.country]){
-                const countryName = yearlySale.country;
+                
                 total[yearlySale.country] = {"authorizations": JSON.parse(yearlySale.authorizations), "deliveries": JSON.parse(yearlySale.deliveries)};
 
                 if (+yearlySale.authorizations > maxAuthorizationAmount)maxAuthorizationAmount = +yearlySale.authorizations;
@@ -68,11 +68,11 @@ export default class Heatmap extends Component {
     
 
         // Assign color weight to each country
-        for (let country in totalVals){
-            
+        for (let country in totalVals){   
             totalVals[country].deliveryColorValue = paletteScaleDeliveries(totalVals[country].deliveries);
-            totalVals[country].authorizationColoration = paletteScaleDeliveries(totalVals[country].authorizations);
+            totalVals[country].authorizationColorValue = paletteScaleAuthorizations(totalVals[country].authorizations);
         }
+        console.log("totalVals is ", totalVals);
 
         let map = new Datamap({
             element: document.getElementById('heat_map'),
@@ -84,11 +84,13 @@ export default class Heatmap extends Component {
                 borderColor: '444',
                 dataJson: worldJson,
                 populateTemplate: function (geo, data){
+                    console.log("data", data);
+                    console.log("geo", geo);
                     if(!data){ return; }
                     return [
                         '<div class="hoverinfo">',
                         '<strong>', geo.properties.name, '</strong>',
-                        '<br>Total Deliveries: <strong>', data.deliveries, '</strong>',
+                        '<br>Total Deliveries: <strong>', data[geo.properties.name].deliveries, '</strong>',
                         '</div>'].join('')
                 }
             },
@@ -102,7 +104,7 @@ export default class Heatmap extends Component {
             data: totalVals,
             setProjection: function (element) {
                 let projection = d3.geo.mercator()
-                    .center([-106.3468, 68.1304]) // always in [East Latitude, North Longitude]
+                    .center([0, 0]) // always in [East Latitude, North Longitude]
                     .scale(200)
                     .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
                     
@@ -111,7 +113,6 @@ export default class Heatmap extends Component {
                 return { path: path, projection: projection };
             }
         });
-        
     }
     
 
