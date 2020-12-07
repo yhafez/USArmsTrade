@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Datamap from "datamaps/dist/datamaps.world.min.js";
 import d3 from "d3";
+import './HeatMap.css';
 import worldJson from "./world.topo.json";
 import armsSalesTotals from "./arms_sales_totals.json";
 import * as Countries from "i18n-iso-countries";
@@ -127,13 +128,7 @@ export default class Heatmap extends Component {
   // Creates div React component which is used by Datamaps above as the container for the map
   render() {
     return (
-      <div
-        id="heat_map"
-        style={{
-          height: "100%",
-          width: "100%",
-        }}
-      ></div>
+      <div id="heat_map"></div>
     );
   }
 }

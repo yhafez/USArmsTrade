@@ -1,0 +1,16 @@
+header {
+  background-color: #273149;
+  height: 12%;
+  margin: 0;
+  padding: 0;
+  box-shadow: 4px 4px 4px 1px;
+  text-align: center;
+}
+
+.app-title {
+  color: 	#ebf6fd;
+  font-size: 3em;
+  font-weight: bolder;
+  margin: 0;
+  padding: .3em 0em;
+}
