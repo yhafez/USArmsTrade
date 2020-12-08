@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Datamap from "datamaps/dist/datamaps.world.min.js";
 import d3 from "d3";
-import './HeatMap.css';
-import worldJson from "./world.topo.json";
-import armsSalesTotals from "./arms_sales_totals.json";
+import "../HeatMap/HeatMap.css";
+import worldJson from "../../data/world.topo.json";
+import armsSalesTotals from "../../data/arms_sales_totals.json";
 import * as Countries from "i18n-iso-countries";
-import { formatNumber } from "./utils/format";
+import { formatNumber } from "../../utils/format";
 
 Countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
 export default class Heatmap extends Component {
@@ -127,8 +127,6 @@ export default class Heatmap extends Component {
 
   // Creates div React component which is used by Datamaps above as the container for the map
   render() {
-    return (
-      <div id="heat_map"></div>
-    );
+    return <div id="heat_map"></div>;
   }
 }

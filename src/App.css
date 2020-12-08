@@ -1,7 +1,7 @@
 .App {
   background-color: lightblue;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .map-styling {
