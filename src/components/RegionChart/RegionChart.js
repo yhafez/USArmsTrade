@@ -28,7 +28,7 @@ const state = {
 class RegionChart extends React.Component {
   render() {
     return (
-      <div style={{ width: "700px", margin: "50px" }}>
+      <div style={{ width: "700px", margin: "50px auto" }}>
         <Doughnut
           data={state}
           width={200}

@@ -1,7 +1,7 @@
 #heat_map {
   overflow-x: scroll;
   overflow-y: scroll;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
   box-shadow: 4px 4px 4px 1px;
   height: 65vh;
   width: 80vw;
