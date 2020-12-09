@@ -1,0 +1,17 @@
+#heat_map {
+  overflow-x: scroll;
+  overflow-y: scroll;
+  background-color: white;
+  box-shadow: 4px 4px 4px 1px;
+  height: 65vh;
+  width: 80vw;
+  padding: 1em;
+  border-radius: 10px;
+}
+
+svg,
+.datamaps-subunits {
+  padding: .5em;
+  height: 70vh;
+  width: 80vw;
+}

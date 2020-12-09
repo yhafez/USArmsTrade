@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Datamap from 'datamaps/dist/datamaps.world.min.js';
 import d3 from 'd3';
+import "../HeatMap/HeatMap.css";
 import worldJson from './world.topo.json';
 import armsSalesTotals from './arms_sales_totals.json';
 import * as Countries from 'i18n-iso-countries';
