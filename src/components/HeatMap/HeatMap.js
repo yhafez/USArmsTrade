@@ -15,7 +15,7 @@ export default class Heatmap extends Component {
   componentDidMount() {
     /*----------------------------------------------- Variables -----------------------------------------------*/
 
-    
+
     const startYear = this.props.startYear;
     const endYear = this.props.endYear;
 
@@ -39,11 +39,11 @@ export default class Heatmap extends Component {
             : selectedData = "total"
 
     /*----------------------------------------------- Dataset -----------------------------------------------*/
-    
-    
+
+
     // Loop over dataset, remove trailing spaces from country names, and create object "formattedData" containing country name, total delivery amounts, and authorization amounts, and yearly delivery amounts, and authorization amounts
     const formattedData = armsSalesTotals.reduce((dataSet, yearlySale) => {
-        
+
       // TODO: Logs portions of data that aren't rendered on the map; need to figure out what to do with this
       // if(Countries.getAlpha3Code(yearlySale.country.trim(), "en") === undefined) console.log(yearlySale.country.trim(), yearlySale.country.trim().length );
 
@@ -64,7 +64,7 @@ export default class Heatmap extends Component {
       }
       // If country isn't yet stored in totalVals, identify its Alpha-3 code (for compatability with Datamaps) to use as key, and store object containing country name, authorization amount, and delivery amount; else, increment authorization and delivery amounts to yield total amounts across all years
       else if (!dataSet[countryCode]){
-          
+
           dataSet[countryCode] = {
               country: countryName,
               total:{
@@ -80,25 +80,25 @@ export default class Heatmap extends Component {
               authorizations: JSON.parse(yearlySale.authorizations),
               deliveries: JSON.parse(yearlySale.deliveries),
           }
-          
+
       }
       else{
           dataSet[countryCode].total.authorizations += JSON.parse(yearlySale.authorizations);
           dataSet[countryCode].total.deliveries += JSON.parse(yearlySale.deliveries);
           if(!dateRangeString) adjustMaxValues(yearlySale);
 
-          
+
               dataSet[countryCode][year] = {
                   authorizations: JSON.parse(yearlySale.authorizations),
                   deliveries: JSON.parse(yearlySale.deliveries),
               }
-          
+
       }
       return dataSet;
     }, {});
-          
+
     // Fill in missing data with values of $0 for deliveries and amoutns
-    for (let country in formattedData){   
+    for (let country in formattedData){
 
         for( let year=1996; year <= 2020; ++year){
             if(!formattedData[country][year]){
@@ -112,12 +112,12 @@ export default class Heatmap extends Component {
 
     // If a date range is specified in the filter settings, check the first item to see if there is a stored total value for that date range in the dataset and, if not, calculate the totals for that date range and store/memoize them
     if(dateRangeString){
-        
+
         if(!formattedData[Object.keys(formattedData)[0]][dateRangeString]){
 
             for (let year = startYear; year<=endYear; ++year){
                 for (let country in formattedData){
-                    
+
                     if(!formattedData[country][dateRangeString]){
                         formattedData[country][dateRangeString] = {
                             authorizations: formattedData[country][year].authorizations,
@@ -129,8 +129,8 @@ export default class Heatmap extends Component {
                         formattedData[country][dateRangeString].authorizations += formattedData[country][year].deliveries;
                         adjustMaxValues(formattedData[country][dateRangeString]);
                     }
-                    
-                } 
+
+                }
             }
         }
     }
@@ -147,9 +147,9 @@ export default class Heatmap extends Component {
 
     // Assign color weight to each country and fill in missing years in formattedData
     // TODO: Weight is currently based off deliveries; should we make it a button to toggle between weighing by deliveries and alternatively weighing by authorizations?
-    
+
     for (let country in formattedData) {
-        
+
         if(formattedData[country][selectedData].deliveries === 0){
             formattedData[country].fillColor = "#aaaaaa";
         }
@@ -159,14 +159,14 @@ export default class Heatmap extends Component {
             );
         }
     }
-      
-      
+
+
     /*----------------------------------------------- Helper Functions -----------------------------------------------*/
 
 
     // Helper function to adjust value of maxAuthorization and maxDelivery if those values in the item being processed are larger than currently set value appropriately based on selected filters
     function adjustMaxValues({ authorizations, deliveries }){
-        
+
         // If a start date and end date are set, then maxAuthorization and maxDelivery are set to represent the values of the countries with the highest sum of authorization and delivery amounts in that date range
         if(hasStartYear){
             if (+authorizations > maxAuthorization) maxAuthorization = authorizations;
@@ -183,7 +183,7 @@ export default class Heatmap extends Component {
             if (+deliveries > maxDelivery) maxDelivery = deliveries;
         }
     }
-    
+
     console.table(formattedData);
 
     /*----------------------------------------------- Datamaps Config -----------------------------------------------*/
@@ -205,11 +205,11 @@ export default class Heatmap extends Component {
             borderWidth: '0.5',
             highlightOnHover: true,
             highlightBorderWidth: 1.5,
-            highlightBorderColor: "#03fc5a",
+            highlightBorderColor: "#D8D835",
             // Matches highlight color to fill color, so color doesn't change on hover
             highlightFillColor: function(geo) {
                 return geo['fillColor'] || 'rgb(170, 170, 170)';
-            }, 
+            },
             // Defines template of popup that appears when country is hovered over based on filter settings
             popupTemplate: function (geo, data){
                 if(!data){ return; }
@@ -241,7 +241,7 @@ export default class Heatmap extends Component {
         },
     });
   }
-  
+
   /*----------------------------------------------- Component Render -----------------------------------------------*/
 
   // Creates div React component which is used by Datamaps above as the container for the map
