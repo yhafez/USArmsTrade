@@ -20,7 +20,7 @@ function App() {
     <div className="App">
       <Header />
       <Instructions />
-      <div className="map-styling">ß
+      <div className="map-styling">
         <HeatMap 
           displayTotal={displayTotal}
           startYear={startYear}
