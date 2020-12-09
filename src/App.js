@@ -5,6 +5,7 @@ import HeatMap from "./components/HeatMap/HeatMap";
 import Header from "./components/Header/Header";
 import Instructions from "./components/Instructions/Instructions";
 import RegionChart from "./components/RegionChart/RegionChart";
+import FilterUI from "./components/FilterUI/FilterUI"
 
 function App() {
 
@@ -14,16 +15,25 @@ function App() {
   const [endYear, setEndYear] = useState(NaN);
   
   // Specifies whether the map will render data on notification, authorization, or delivery amounts
-  const [dataSet, setDataSet] = useState("deliveries")
+  const [dataType, setDataType] = useState("deliveries")
+  
+  console.log("In app ",  startYear, endYear);
 
   return (
     <div className="App">
       <Header />
       <Instructions />
+      <FilterUI
+        setDataType={setDataType}
+        setStartYear={setStartYear}
+        setEndYear={setEndYear}
+      />
       <div className="map-styling">
         <HeatMap 
           displayTotal={displayTotal}
+          setStartYear={setStartYear}
           startYear={startYear}
+          setEndYear={setEndYear}
           endYear={endYear}
         />
       </div>

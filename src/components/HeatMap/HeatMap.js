@@ -14,10 +14,16 @@ export default class Heatmap extends Component {
 
   componentDidMount() {
     /*----------------------------------------------- Variables -----------------------------------------------*/
-
-    
+    console.log("here");
     const startYear = this.props.startYear;
     const endYear = this.props.endYear;
+    console.log("In Heatmap ", startYear, endYear);
+
+    if (startYear > endYear){
+        alert("The start year can't be greater than the end year");
+        this.props.setStartYear(NaN);
+        return;
+    }
 
     const hasStartYear = Boolean(startYear);
     const hasEndYear = Boolean(endYear);
@@ -184,7 +190,7 @@ export default class Heatmap extends Component {
         }
     }
     
-    console.table(formattedData);
+    // console.table(formattedData);
 
     /*----------------------------------------------- Datamaps Config -----------------------------------------------*/
 

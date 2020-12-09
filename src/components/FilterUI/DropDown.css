@@ -1,0 +1,13 @@
+.filter-dropdown{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .filter-label{
+    margin-right: 0.5rem;
+} */
+.filter-selector{
+    margin: 0.5rem 0;
+}
