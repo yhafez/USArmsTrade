@@ -9,75 +9,193 @@ Countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
 export default class Heatmap extends Component {
     
     componentDidMount(){
+        
+        /*----------------------------------------------- Variables -----------------------------------------------*/
 
-        // Tracks largest authorization and dollar amounts
+        
+        const startYear = this.props.startYear;
+        const endYear = this.props.endYear;
+
+        const hasStartYear = Boolean(startYear);
+        const hasEndYear = Boolean(endYear);
+
+        // If a start and end date are specified in filter settings, store the range as a string to use as key and in to validate that a date range has been specified
+        let dateRangeString;
+        if(hasStartYear && hasEndYear) dateRangeString = `${startYear}-${endYear}`
+
+        // Tracks largest authorization and dollar amounts based on filter settings
         let maxAuthorization = 0;
         let maxDelivery = 0;
 
-        // Helper function to adjust value of maxAuthorization and maxDelivery if those values in the item being processed are larger
-        const adjustMaxValues = (authorizationAmount, deliveriesAmount) => {
-            if (+authorizationAmount > maxAuthorization) maxAuthorization = authorizationAmount;
-            if (+deliveriesAmount > maxDelivery) maxDelivery = deliveriesAmount;
-        }
+        // Define selectedData based on filter settings; default to total
+        let selectedData;
+        dateRangeString
+            ? selectedData = dateRangeString
+            : hasStartYear
+                ? selectedData = startYear
+                : selectedData = "total"
 
-        // Loop over dataset, remove trailing spaces, and create object "totalVals" containing country name, delivery amounts, and authorization amounts
-        let totalVals = armsSalesTotals.reduce((total, yearlySale, index) => {
+
+        /*----------------------------------------------- Dataset -----------------------------------------------*/
+        
+        
+        // Loop over dataset, remove trailing spaces from country names, and create object "formattedData" containing country name, total delivery amounts, and authorization amounts, and yearly delivery amounts, and authorization amounts
+        const formattedData = armsSalesTotals.reduce((dataSet, yearlySale) => {
             
             // TODO: Logs portions of data that aren't rendered on the map; need to figure out what to do with this
             // if(Countries.getAlpha3Code(yearlySale.country.trim(), "en") === undefined) console.log(yearlySale.country.trim(), yearlySale.country.trim().length );
-            
-            // Somaliland doesn't have a 3 letter country code as required by Datamaps, but appears in the dataset, so assign it a custom 3 letter code
-            if (yearlySale.country.trim() === "Somaliland"){
-                total["SML"] = {
-                    "country": yearlySale.country.trim(),
-                    "authorizations": JSON.parse(yearlySale.authorizations),
-                    "deliveries": JSON.parse(yearlySale.deliveries)
+
+            const countryCode = Countries.getAlpha3Code(yearlySale.country.trim(), "en");
+            const countryName = yearlySale.country.trim();
+            const year = yearlySale.year;
+
+            // Somaliland doesn't have a 3 letter country code as required by Datamaps, but appears in datamaps rendered globe, so assign it a custom 3 letter code
+            if (countryName === "Somaliland"){
+                dataSet["SML"] = {
+                    country: countryName,
+                    total:{
+                        authorizations: JSON.parse(yearlySale.authorizations),
+                        deliveries: JSON.parse(yearlySale.deliveries),
+                    },
                 };
-                adjustMaxValues(yearlySale.authorizations, yearlySale.deliveries);
+                if(!dateRangeString) adjustMaxValues(yearlySale);
             }
             // If country isn't yet stored in totalVals, identify its Alpha-3 code (for compatability with Datamaps) to use as key, and store object containing country name, authorization amount, and delivery amount; else, increment authorization and delivery amounts to yield total amounts across all years
-            else if (!total[Countries.getAlpha3Code(yearlySale.country.trim(), "en")]){
+            else if (!dataSet[countryCode]){
                 
-                total[Countries.getAlpha3Code(yearlySale.country.trim(), "en")] = {
-                    "country": yearlySale.country.trim(),
-                    "authorizations": JSON.parse(yearlySale.authorizations),
-                    "deliveries": JSON.parse(yearlySale.deliveries)
+                dataSet[countryCode] = {
+                    country: countryName,
+                    total:{
+                        countryCode,
+                        authorizations: JSON.parse(yearlySale.authorizations),
+                        deliveries: JSON.parse(yearlySale.deliveries),
+                    },
                 };
-                adjustMaxValues(yearlySale.authorizations, yearlySale.deliveries);
+                if(!dateRangeString) adjustMaxValues(yearlySale);
+
+                // If year is not-empty, store authorization and delivery values for that year, else store them as $0
+                dataSet[countryCode][year] = {
+                    authorizations: JSON.parse(yearlySale.authorizations),
+                    deliveries: JSON.parse(yearlySale.deliveries),
+                }
+                
             }
             else{
-                total[Countries.getAlpha3Code(yearlySale.country.trim(), "en")].authorizations += JSON.parse(yearlySale.authorizations);
-                total[Countries.getAlpha3Code(yearlySale.country.trim(), "en")].deliveries += JSON.parse(yearlySale.deliveries);
-                adjustMaxValues(yearlySale.authorizations, yearlySale.deliveries);
+                dataSet[countryCode].total.authorizations += JSON.parse(yearlySale.authorizations);
+                dataSet[countryCode].total.deliveries += JSON.parse(yearlySale.deliveries);
+                if(!dateRangeString) adjustMaxValues(yearlySale);
+
+                
+                    dataSet[countryCode][year] = {
+                        authorizations: JSON.parse(yearlySale.authorizations),
+                        deliveries: JSON.parse(yearlySale.deliveries),
+                    }
+                
             }
-            return total;
-            }, {});
-        
+            return dataSet;
+        }, {});
+            
+        // Fill in missing data with values of $0 for deliveries and amoutns
+        for (let country in formattedData){   
+
+            for( let year=1996; year <= 2020; ++year){
+                if(!formattedData[country][year]){
+                    formattedData[country][year] = {
+                        authorizations: 0,
+                        deliveries: 0,
+                    }
+                }
+            }
+        }
+
+        // If a date range is specified in the filter settings, check the first item to see if there is a stored total value for that date range in the dataset and, if not, calculate the totals for that date range and store/memoize them
+        if(dateRangeString){
+            
+            if(!formattedData[Object.keys(formattedData)[0]][dateRangeString]){
+
+                for (let year = startYear; year<=endYear; ++year){
+                    for (let country in formattedData){
+                        
+                        if(!formattedData[country][dateRangeString]){
+                            formattedData[country][dateRangeString] = {
+                                authorizations: formattedData[country][year].authorizations,
+                                deliveries: formattedData[country][year].deliveries
+                            }
+                        }
+                        else{
+                            formattedData[country][dateRangeString].authorizations += formattedData[country][year].authorizations;
+                            formattedData[country][dateRangeString].authorizations += formattedData[country][year].deliveries;
+                            adjustMaxValues(formattedData[country][dateRangeString]);
+                        }
+                        
+                    } 
+                }
+            }
+        }
+
+
         // Set color scale for both deliveries and authorizations
         let paletteScaleDeliveries = d3.scale.linear()
             .domain([0, maxDelivery])
-            .range(["rgb(170, 170, 170)", "rgb(128, 0, 255)"]);
+            .range(["rgb(159, 142, 173)", "rgb(128, 0, 255)"]);
 
         let paletteScaleAuthorizations = d3.scale.linear()
-        .domain([0, maxAuthorization])
-        .range(["rgb(170, 170, 170)", "rgb(128, 0, 255)"]);
-    
+            .domain([0, maxAuthorization])
+            .range(["rgb(159, 142, 173)", "rgb(128, 0, 255)"]);
 
-        // Assign color weight to each country
+        // Assign color weight to each country and fill in missing years in formattedData
         // TODO: Weight is currently based off deliveries; should we make it a button to toggle between weighing by deliveries and alternatively weighing by authorizations?
-        for (let country in totalVals){   
-            totalVals[country].fillColor = paletteScaleDeliveries(totalVals[country].deliveries);
+        
+        for (let country in formattedData) {
             
+            if(formattedData[country][selectedData].deliveries === 0){
+                formattedData[country].fillColor = "#aaaaaa";
+            }
+            else{
+                formattedData[country].fillColor = paletteScaleDeliveries(
+                    formattedData[country][selectedData].deliveries
+                );
+            }
         }
         
-        console.table(totalVals);
         
+        /*----------------------------------------------- Helper Functions -----------------------------------------------*/
+
+
+        // Helper function to adjust value of maxAuthorization and maxDelivery if those values in the item being processed are larger than currently set value
+        function adjustMaxValues({ authorizations, deliveries }){
+            
+            //TODO: Date range
+            // If a start date and end date are set, then maxAuthorization and maxDelivery are set to represent the values of the countries with the highest sum of authorization and delivery amounts in that date range
+            if(dateRangeString){
+                if (+authorizations > maxAuthorization) maxAuthorization = authorizations;
+                if (+deliveries > maxDelivery) maxDelivery = deliveries;
+            }
+            // If only a start date is set, then maxAuthorization and maxDelivery are set to represent the values of the countries with the highest authorization and delivery amounts for that year only
+            else if(hasStartYear){
+                if (+authorizations > maxAuthorization) maxAuthorization = authorizations;
+                if (+deliveries > maxDelivery) maxDelivery = deliveries;
+            }
+            // If no start date or end date are set, maxAuthorization and maxDelivery defaults to representing the values of the countries with the highest sum of authorization and delivery amounts across all years
+            else{
+                if (+authorizations > maxAuthorization) maxAuthorization = authorizations;
+                if (+deliveries > maxDelivery) maxDelivery = deliveries;
+            }
+        }
+        
+        console.table(formattedData);
+
+        /*----------------------------------------------- Datamaps Config -----------------------------------------------*/
+
+
         // Creates and configures the world map and its styles, as well as popups on hover
         const map = new Datamap({
             element: document.getElementById('heat_map'),
             scope: 'world',
-            fills: {defaultFill: 'rgb(170, 170, 170)'}, //Default color if no fillColor is specified
-            data: totalVals, // Specifies totalVals as data source for popups and weighted color fills
+             //Default color if no fillColor is specified
+            fills: {defaultFill: 'rgb(170, 170, 170)'},
+            // Specifies formattedData as data source for popup data and populating weighted color
+            data: formattedData,
             dataType: 'json',
             geographyConfig: {
                 dataUrl: "./world.topo.json",
@@ -87,30 +205,47 @@ export default class Heatmap extends Component {
                 highlightOnHover: true,
                 highlightBorderWidth: 1.5,
                 highlightBorderColor: "#03fc5a",
-                highlightFillColor: function(geo) {return geo['fillColor'] || 'rgb(170, 170, 170)';}, // Matches highlight color to fill color, so color doesn't change on hover
-                /// Defines template of popup that appears when country is hovered over
+                // Matches highlight color to fill color, so color doesn't change on hover
+                highlightFillColor: function(geo) {
+                    return geo['fillColor'] || 'rgb(170, 170, 170)';
+                }, 
+                // Defines template of popup that appears when country is hovered over based on filter settings
                 popupTemplate: function (geo, data){
                     if(!data){ return; }
-                    return [
+                    if(selectedData === "total"){
+                        return [
+                            '<div class="hoverinfo">',
+                                '<strong>', geo.properties.name + " (1996 - 2020)",'</strong>',
+                                '<br>Authorizations: <strong>$', data.total.authorizations, '</strong>',
+                                '<br>Deliveries: <strong>$', data.total.deliveries, '</strong>',
+                            '</div>'].join('')
+                    }
+
+                    //TODO: Date range
+                    else if(selectedData === dateRangeString){
+                        return [
+                            '<div class="hoverinfo">',
+                                '<strong>', geo.properties.name + " (" + startYear + " - " + endYear + ")",'</strong>',
+                                '<br>Authorizations: <strong>$', data[dateRangeString].authorizations, '</strong>',
+                                '<br>Deliveries: <strong>$', data[dateRangeString].deliveries, '</strong>',
+                            '</div>'].join('')
+                    }
+                    else {
+                        return [
                         '<div class="hoverinfo">',
-                            '<strong>', geo.properties.name,'</strong>',
-                            '<br>Total Authorizations: <strong>$', data.authorizations, '</strong>',
-                            '<br>Total Deliveries: <strong>$', data.deliveries, '</strong>',
+                            '<strong>', geo.properties.name + " (" + startYear + ")",'</strong>',
+                            '<br>Authorizations: <strong>$', data[startYear].authorizations, '</strong>',
+                            '<br>Deliveries: <strong>$', data[startYear].deliveries, '</strong>',
                         '</div>'].join('')
+                    }
                 }
-            },
-            // Creates the map and default behavior such as centering and scale
-            setProjection: function (element) {
-                let projection = d3.geo.mercator()
-                    .center([0, 0])
-                    .scale(200)
-                    .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-                let path = d3.geo.path().projection(projection);
-                return { path: path, projection: projection };
             },
         });
     }
     
+
+    /*----------------------------------------------- Component Render -----------------------------------------------*/
+
     // Creates div React component which is used by Datamaps above as the container for the map
     render(){
         return(
