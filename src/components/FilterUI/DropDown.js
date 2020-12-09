@@ -8,6 +8,7 @@ export default function DropDown({label, name, setYear }){
         if(e.target.value === "NaN") setYear(NaN);
         else setYear(e.target.value);
     }
+    
     return(
     <div className="filter-dropdown">
         <label className="filter-label" htmlFor={name}>{label}</label>

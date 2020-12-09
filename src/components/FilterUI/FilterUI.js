@@ -19,14 +19,10 @@ export default function FilterUI({setDataType, setStartYear, setEndYear}){
                         </div>
 
                         <div>
-                            <input type="radio" className="data-radio" id="deliveries-radio" name="data-type" value="deliveries" defaultChecked onChange={e => setDataType(e.target.value)}/>
+                            <input type="radio" className="data-radio" id="deliveries-radio" name="data-type" value="deliveries" checked onChange={e => setDataType(e.target.value)}/>
                             <label htmlFor="data-type">Deliveries</label>
                         </div>
 
-                        <div>
-                            <input type="radio" className="data-radio" id="notifications-radio" name="data-type" value="notifications" onChange={e => setDataType(e.target.value)}/>
-                            <label htmlFor="data-type">Notifications</label>
-                        </div>
                     </div>
                 </div>
             

@@ -18,11 +18,13 @@ export default class Heatmap extends Component {
     console.log("here");
     const startYear = this.props.startYear;
     const endYear = this.props.endYear;
-    console.log("In Heatmap ", startYear, endYear);
+    const dataType = this.props.dataType;
+    console.log("In Heatmap ", startYear, endYear, dataType);
 
     if (startYear > endYear){
         alert("The start year can't be greater than the end year");
         this.props.setStartYear(NaN);
+        this.props.setEndYear(NaN);
         return;
     }
 
@@ -156,14 +158,13 @@ export default class Heatmap extends Component {
     // TODO: Weight is currently based off deliveries; should we make it a button to toggle between weighing by deliveries and alternatively weighing by authorizations?
 
     for (let country in formattedData) {
-
-        if(formattedData[country][selectedData].deliveries === 0){
-            formattedData[country].fillColor = "#aaaaaa";
+        if(dataType==="deliveries"){
+            if(formattedData[country][selectedData].deliveries === 0){formattedData[country].fillColor = "#aaaaaa";}
+            else{formattedData[country].fillColor = paletteScaleDeliveries(formattedData[country][selectedData].deliveries);}
         }
-        else{
-            formattedData[country].fillColor = paletteScaleDeliveries(
-                formattedData[country][selectedData].deliveries
-            );
+        else if(dataType==="authorizations"){
+            if(formattedData[country][selectedData].authorization === 0){formattedData[country].fillColor = "#aaaaaa";}
+            else{formattedData[country].fillColor = paletteScaleAuthorizations(formattedData[country][selectedData].authorizations);}
         }
     }
 
@@ -190,7 +191,7 @@ export default class Heatmap extends Component {
             if (+deliveries > maxDelivery) maxDelivery = deliveries;
         }
     }
-    
+
     // console.table(formattedData);
 
     /*----------------------------------------------- Datamaps Config -----------------------------------------------*/
@@ -247,6 +248,12 @@ export default class Heatmap extends Component {
             }
         },
     });
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps !== this.props.startYear){
+        console.log("in componentDidUPdate");
+    }
   }
 
   /*----------------------------------------------- Component Render -----------------------------------------------*/
