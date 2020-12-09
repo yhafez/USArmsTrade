@@ -204,7 +204,7 @@ export default class Heatmap extends Component {
             borderColor: '#000',
             borderWidth: '0.5',
             highlightOnHover: true,
-            highlightBorderWidth: 1.5,
+            highlightBorderWidth: 3.5,
             highlightBorderColor: "#D8D835",
             // Matches highlight color to fill color, so color doesn't change on hover
             highlightFillColor: function(geo) {
@@ -247,10 +247,7 @@ export default class Heatmap extends Component {
   // Creates div React component which is used by Datamaps above as the container for the map
   render(){
       return(
-          <div id="heat_map" style={{
-              height: "100%",
-              width: "100%",
-          }}></div>
+          <div id="heat_map"></div>
       )
   }
 
