@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Datamap from "datamaps/dist/datamaps.world.min.js";
 import d3 from "d3";
 import "../HeatMap/HeatMap.css";
-import worldJson from "../../data/world.topo.json";
 import armsSalesTotals from "../../data/arms_sales_totals.json";
 import * as Countries from "i18n-iso-countries";
 import { formatNumber } from "../../utils/format";
@@ -198,7 +197,7 @@ export default class Heatmap extends Component {
 
 
     // Creates and configures the world map and its styles, as well as popups on hover
-    const map = new Datamap({
+    new Datamap({
         element: document.getElementById('heat_map'),
         scope: 'world',
           //Default color if no fillColor is specified

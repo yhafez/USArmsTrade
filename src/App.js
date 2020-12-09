@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import HeatMap from "./components/HeatMap/HeatMap";
 import Header from "./components/Header/Header";
