@@ -15,10 +15,25 @@ function App() {
   // Specifies whether the map will render data on notification, authorization, or delivery amounts
   const [dataType, setDataType] = useState("deliveries")
 
-  function PropChangeWatch({ startYear, endYear, dataType }){
+  // Set state for window height and width to re-render on browser-window size change
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  })
+
+  // Watches for changes in props passed to HeatMap.js and browser changes to stimulate re-render
+  function PropAndWindowChangeWatch({ startYear, endYear, dataType }){
+    function handleResize(){
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
 
     useEffect(()=>{
       console.log("In app in useEffect ",  startYear, endYear, dataType);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
     }, [startYear, endYear, dataType])
 
     return(
@@ -39,7 +54,7 @@ function App() {
     <div className="App">
       <Header />
       <div className="map-styling">
-        <PropChangeWatch startYear={startYear} endYear={endYear} dataType={dataType} />
+        <PropAndWindowChangeWatch startYear={startYear} endYear={endYear} dataType={dataType} />
       </div>
       <FilterUI
         setDataType={setDataType}
@@ -53,43 +68,3 @@ function App() {
 }
 
 export default App;
-
-
-// class App extends React.component{
-
-  
-//   componentDidMount(){
-//   // Display total values on heatmap by default, replace with data from single year (start date) or date range based on filter options
-//   const [startYear, setStartYear] = useState(NaN);
-//   const [endYear, setEndYear] = useState(NaN);
-  
-//   // Specifies whether the map will render data on notification, authorization, or delivery amounts
-//   const [dataType, setDataType] = useState("deliveries")
-
-  
-//   console.log("In app ",  startYear, endYear, dataType);
-  
-//   render(){
-//     return (
-//       <div className="App">
-//         <Header />
-//         <Instructions />
-//         <FilterUI
-//           setDataType={setDataType}
-//           setStartYear={setStartYear}
-//           setEndYear={setEndYear}
-//         />
-//         <div className="map-styling">
-//           <HeatMap
-//             setStartYear={setStartYear}
-//             startYear={startYear}
-//             setEndYear={setEndYear}
-//             endYear={endYear}
-//             dataType={dataType}
-//           />
-//         </div>
-//         <RegionChart />
-//       </div>
-//     );
-// }}
-// }

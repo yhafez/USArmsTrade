@@ -218,10 +218,10 @@ export default class Heatmap extends Component {
                   : 0;
               alert(`
                           ${countryName}, ${countryCode}
-                          Total Authorizations: ${formatNumber(
+                          Total Authorizations: $${formatNumber(
                             countryTotalAuthorizations
                           )}
-                          Total Deliveries: ${formatNumber(
+                          Total Deliveries: $${formatNumber(
                             countryTotalDeliveries
                           )}`);
             });
