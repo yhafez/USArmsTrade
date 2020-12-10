@@ -13,11 +13,9 @@ export default class Heatmap extends Component {
     componentDidMount() {
         /*----------------------------------------------- Variables -----------------------------------------------*/
 
-        console.log("here");
         const startYear = this.props.startYear;
         const endYear = this.props.endYear;
         const dataType = this.props.dataType;
-        console.log("In Heatmap ", startYear, endYear, dataType);
 
         //TODO: Update drop downs when this alert happens as well!
         if (startYear > endYear) {

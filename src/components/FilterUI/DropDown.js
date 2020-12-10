@@ -18,7 +18,9 @@ export default function DropDown({ label, name, setYear }) {
                 name={name}
                 onChange={(e) => handleSelection(e)}
             >
-                <option value="NaN">Date</option>
+                <option value="NaN" defaultValue>
+                    Date
+                </option>
                 <option value="1996">1996</option>
                 <option value="1997">1997</option>
                 <option value="1998">1998</option>

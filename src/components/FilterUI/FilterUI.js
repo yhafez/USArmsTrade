@@ -3,6 +3,9 @@ import DropDown from "./DropDown";
 import "./FilterUI.css";
 
 export default function FilterUI({ setDataType, setStartYear, setEndYear }) {
+    function handleChange(e) {
+        setDataType(e.target.value);
+    }
     return (
         <div id="filter-ui" styling="width: 100%">
             <h3 id="filter-header"> Filter </h3>
@@ -17,7 +20,7 @@ export default function FilterUI({ setDataType, setStartYear, setEndYear }) {
                                 id="authorizations-radio"
                                 name="data-type"
                                 value="authorizations"
-                                onChange={(e) => setDataType(e.target.value)}
+                                onChange={handleChange}
                             />
                             <label htmlFor="data-type" className="radio-labels">
                                 Authorizations
@@ -31,8 +34,8 @@ export default function FilterUI({ setDataType, setStartYear, setEndYear }) {
                                 id="deliveries-radio"
                                 name="data-type"
                                 value="deliveries"
-                                checked
-                                onChange={(e) => setDataType(e.target.value)}
+                                defaultChecked
+                                onChange={handleChange}
                             />
                             <label htmlFor="data-type" className="radio-labels">
                                 Deliveries

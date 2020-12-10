@@ -20,7 +20,8 @@ function Instructions() {
                 <a
                     target="_blank"
                     href="https://securityassistance.org/arm-sales/"
-                    alt="Opens the Security Assistance Monitor Arms Sales database in a new tab"
+                    title="Opens the Security Assistance Monitor Arms Sales database in a new tab"
+                    rel="noreferrer"
                 >
                     {" "}
                     database

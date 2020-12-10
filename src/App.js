@@ -15,7 +15,7 @@ function App() {
     const [dataType, setDataType] = useState("deliveries");
 
     // Set state for window height and width to re-render on browser-window size change
-    const [dimensions, setDimensions] = useState({
+    const [, setDimensions] = useState({
         width: window.innerWidth,
         height: window.innerHeight,
     });
@@ -30,7 +30,6 @@ function App() {
         }
 
         useEffect(() => {
-            console.log("In app in useEffect ", startYear, endYear, dataType);
             window.addEventListener("resize", handleResize);
             return () => window.removeEventListener("resize", handleResize);
         }, [startYear, endYear, dataType]);
@@ -45,8 +44,6 @@ function App() {
             />
         );
     }
-
-    console.log("In app ", startYear, endYear, dataType);
 
     return (
         <div className="App">
