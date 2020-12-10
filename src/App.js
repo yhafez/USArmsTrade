@@ -15,20 +15,20 @@ function App() {
     const [dataType, setDataType] = useState("deliveries");
 
     // Set state for window height and width to re-render on browser-window size change
-    const [, setDimensions] = useState({
+    const [dimensions, setDimensions] = useState({
         width: window.innerWidth,
         height: window.innerHeight,
     });
 
+    function handleResize() {
+        setDimensions({
+            width: window.innerWidth,
+            height: window.innerHeight,
+        });
+    }
+
     // Watches for changes in props passed to HeatMap.js and browser changes to stimulate re-render
     function PropAndWindowChangeWatch({ startYear, endYear, dataType }) {
-        function handleResize() {
-            setDimensions({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            });
-        }
-
         useEffect(() => {
             window.addEventListener("resize", handleResize);
             return () => window.removeEventListener("resize", handleResize);
@@ -61,7 +61,7 @@ function App() {
                 setEndYear={setEndYear}
             />
             <Instructions />
-            <RegionChart />
+            <RegionChart width={dimensions.width} />
         </div>
     );
 }

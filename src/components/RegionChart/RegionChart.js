@@ -32,13 +32,13 @@ const state = {
     ],
 };
 
-function RegionChart() {
+function RegionChart({ width }) {
     const [position, setPosition] = useState("right");
 
     useEffect(() => {
-        if (window.innerWidth < 600) setPosition("bottom");
+        if (width < 600) setPosition("bottom");
         else setPosition("right");
-    }, [window.innerWidth]);
+    }, [width]);
 
     return (
         <div id="doughnut-container">
