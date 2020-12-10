@@ -12,7 +12,7 @@
 #filter-header{
     margin: 0.5rem 0;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .filter-options{
@@ -35,11 +35,15 @@
     margin-top: 0;
     margin-bottom: 0.7rem;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.3rem;
 }
 
 .data-radio{
     margin-right: 0.5rem;
+}
+
+.radio-labels{
+    font-size: 1.3rem;
 }
 
 #date-range{
@@ -56,7 +60,7 @@
     margin-top: 0;
     margin-bottom: 0.7rem;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.3rem;
 }
 
 #date-range-options{
@@ -64,6 +68,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    font-size: 1.2rem;
 }
 
 @media (max-width: 1300px){
