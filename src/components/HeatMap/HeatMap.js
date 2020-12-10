@@ -17,7 +17,6 @@ export default class Heatmap extends Component {
         const endYear = this.props.endYear;
         const dataType = this.props.dataType;
 
-        //TODO: Update drop downs when this alert happens as well!
         if (startYear > endYear) {
             alert("The start year can't be greater than the end year");
             this.props.setStartYear(NaN);
@@ -157,8 +156,6 @@ export default class Heatmap extends Component {
             .range(["rgb(159, 142, 173)", "rgb(128, 0, 255)"]);
 
         // Assign color weight to each country and fill in missing years in formattedData
-        // TODO: Weight is currently based off deliveries; should we make it a button to toggle between weighing by deliveries and alternatively weighing by authorizations?
-
         for (let country in formattedData) {
             if (dataType === "deliveries") {
                 if (formattedData[country][selectedData].deliveries === 0) {
@@ -169,7 +166,7 @@ export default class Heatmap extends Component {
                     );
                 }
             } else if (dataType === "authorizations") {
-                if (formattedData[country][selectedData].authorization === 0) {
+                if (formattedData[country][selectedData].authorizations === 0) {
                     formattedData[country].fillColor = "#aaaaaa";
                 } else {
                     formattedData[
