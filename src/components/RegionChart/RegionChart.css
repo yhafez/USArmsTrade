@@ -1,0 +1,10 @@
+#doughnut-container {
+    width: 700px;
+    margin: 50px auto;
+}
+
+@media screen and (max-width: 600px) {
+    #doughnut-container {
+        width: 100%;
+    }
+}

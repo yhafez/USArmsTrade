@@ -1,10 +1,10 @@
 .App {
-  background-color: lightblue;
-  height: 100vh;
+    background-color: lightblue;
+    height: 100vh;
 }
 
 .map-styling {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
 }

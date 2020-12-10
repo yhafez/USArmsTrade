@@ -1,120 +1,120 @@
 #heat_map {
-  background-color: white;
-  box-shadow: 4px 4px 4px 1px;
-  height: 80vh;
-  width: 85vw;
-  padding: 1em;
-  border-radius: 10px;
+    background-color: white;
+    box-shadow: 4px 4px 4px 1px;
+    height: 80vh;
+    width: 85vw;
+    padding: 1em;
+    border-radius: 10px;
 }
 
 svg,
 .datamaps-subunits {
-  padding: .5em;
-  height: 100%;
-  width: 100%;
+    padding: 0.5em;
+    height: 100%;
+    width: 100%;
 }
 
-@media(max-width: 1600px){
-  #heat_map{
-    height: 65vh;
-  }
+@media (max-width: 1600px) {
+    #heat_map {
+        height: 65vh;
+    }
 }
 
-@media(max-width: 1200px){
-  #heat_map{
-    height: 55vh;
-  }
+@media (max-width: 1200px) {
+    #heat_map {
+        height: 55vh;
+    }
 }
 
-@media(max-width: 800px){
-  #heat_map{
-    height: 40vh;
-  }
+@media (max-width: 800px) {
+    #heat_map {
+        height: 40vh;
+    }
 }
 
-@media(max-width: 500px){
-  #heat_map{
-    height: 30vh;
-  }
+@media (max-width: 500px) {
+    #heat_map {
+        height: 30vh;
+    }
 }
 
-@media(max-height: 700px){
-  #heat_map{
-    height: 97vh;
-  }
+@media (max-height: 700px) {
+    #heat_map {
+        height: 97vh;
+    }
 }
 
-@media(max-height: 700px) and (max-width: 1300px) {
-  #heat_map{
-    height: 75vh;
-  }
+@media (max-height: 700px) and (max-width: 1300px) {
+    #heat_map {
+        height: 75vh;
+    }
 }
 
-@media(max-height: 700px) and (max-width: 1000px) {
-  #heat_map{
-    height: 60vh;
-  }
+@media (max-height: 700px) and (max-width: 1000px) {
+    #heat_map {
+        height: 60vh;
+    }
 }
 
-@media(max-height: 700px) and (max-width: 700px) {
-  #heat_map{
-    height: 50vh;
-    overflow-y: scroll;
-  }
+@media (max-height: 700px) and (max-width: 700px) {
+    #heat_map {
+        height: 50vh;
+        overflow-y: scroll;
+    }
 }
 
-@media(max-height: 600px){
-  #heat_map{
-    height: 115vh;
-  }
+@media (max-height: 600px) {
+    #heat_map {
+        height: 115vh;
+    }
 }
 
-@media(max-height: 600px) and (max-width: 1300px) {
-  #heat_map{
-    height: 85vh;
-  }
+@media (max-height: 600px) and (max-width: 1300px) {
+    #heat_map {
+        height: 85vh;
+    }
 }
 
-@media(max-height: 600px) and (max-width: 1000px) {
-  #heat_map{
-    height: 70vh;
-  }
+@media (max-height: 600px) and (max-width: 1000px) {
+    #heat_map {
+        height: 70vh;
+    }
 }
 
-@media(max-height: 600px) and (max-width: 700px) {
-  #heat_map{
-    height: 50vh;
-    overflow-y: scroll;
-  }
+@media (max-height: 600px) and (max-width: 700px) {
+    #heat_map {
+        height: 50vh;
+        overflow-y: scroll;
+    }
 }
 
-@media(max-height: 500px){
-  #heat_map{
-    height: 140vh;
-  }
+@media (max-height: 500px) {
+    #heat_map {
+        height: 140vh;
+    }
 }
 
-@media(max-height: 500px) and (max-width: 1300px) {
-  #heat_map{
-    height: 100vh;
-  }
+@media (max-height: 500px) and (max-width: 1300px) {
+    #heat_map {
+        height: 100vh;
+    }
 }
 
-@media(max-height: 500px) and (max-width: 1000px) {
-  #heat_map{
-    height: 90vh;
-  }
+@media (max-height: 500px) and (max-width: 1000px) {
+    #heat_map {
+        height: 90vh;
+    }
 }
 
-@media(max-height: 500px) and (max-width: 700px) {
-  #heat_map{
-    height: 60vh;
-    overflow-y: scroll;
-  }
+@media (max-height: 500px) and (max-width: 700px) {
+    #heat_map {
+        height: 60vh;
+        overflow-y: scroll;
+    }
 }
 
-@media screen{
-  #heatmap{
-    width: 100%
-  }
+@media screen {
+    #heatmap {
+        width: 100%;
+    }
 }

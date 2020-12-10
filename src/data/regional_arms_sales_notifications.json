@@ -4,10 +4,6 @@
     "Notifications": "$28,131,565,903"
   },
   {
-    "Region Arms Sales Dashboard": "Europe",
-    "Notifications": "$16,491,553,204"
-  },
-  {
     "Region Arms Sales Dashboard": "Latin America and the Caribbean",
     "Notifications": "$91,660,488"
   },
@@ -18,5 +14,9 @@
   {
     "Region Arms Sales Dashboard": "South and Central Asia",
     "Notifications": "$4,678,000,500"
+  },
+  {
+    "Region Arms Sales Dashboard": "Europe",
+    "Notifications": "$16,491,553,204"
   }
 ]

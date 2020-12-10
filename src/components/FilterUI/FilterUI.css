@@ -1,21 +1,21 @@
-#filter-ui{
+#filter-ui {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #273149;
     border-radius: 0 0 5px 5px;
-    box-shadow: 4px 4px 4px 1px, -1px -1px 3px ;
+    box-shadow: 4px 4px 4px 1px, -1px -1px 3px;
     margin-bottom: 0.3rem;
 }
 
-#filter-header{
+#filter-header {
     margin: 0.5rem 0;
     color: white;
     font-size: 1.8rem;
 }
 
-.filter-options{
+.filter-options {
     display: flex;
     justify-content: space-evenly;
     align-items: flex-start;
@@ -23,7 +23,7 @@
     width: 100%;
 }
 
-#data-type-filter{
+#data-type-filter {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -31,22 +31,22 @@
     margin-bottom: 0.5rem;
 }
 
-#data-type-header{
+#data-type-header {
     margin-top: 0;
     margin-bottom: 0.7rem;
     text-align: center;
     font-size: 1.3rem;
 }
 
-.data-radio{
+.data-radio {
     margin-right: 0.5rem;
 }
 
-.radio-labels{
+.radio-labels {
     font-size: 1.3rem;
 }
 
-#date-range{
+#date-range {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -56,14 +56,14 @@
     width: 10vw;
 }
 
-#date-range-header{
+#date-range-header {
     margin-top: 0;
     margin-bottom: 0.7rem;
     text-align: center;
     font-size: 1.3rem;
 }
 
-#date-range-options{
+#date-range-options {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -71,8 +71,20 @@
     font-size: 1.2rem;
 }
 
-@media (max-width: 1300px){
-    #date-range-options{
+@media (max-width: 1300px) {
+    #date-range-options {
         justify-content: center;
+    }
+}
+
+@media (max-width: 300px) {
+    .filter-options {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    #data-type-filter {
+        margin-bottom: 1rem;
     }
 }
